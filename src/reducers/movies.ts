@@ -3,8 +3,9 @@ import { Reducer, Action } from 'redux';
 export interface Movie {
   id: number;
   title: string;
-  rating: number;
+  popularity: number;
   overview: string;
+  image?: string;
 }
 
 interface MoviesState {
@@ -16,25 +17,25 @@ const initialState: MoviesState = {
     {
       id: 1,
       title: 'The Fast and the Furious',
-      rating: 98,
+      popularity: 98,
       overview: 'About the speed ...',
     },
     {
       id: 2,
       title: 'The Godfather',
-      rating: 97,
+      popularity: 97,
       overview: 'About criminals ...',
     },
     {
       id: 3,
       title: 'Inception',
-      rating: 90,
+      popularity: 90,
       overview: 'About the something ...',
     },
     {
       id: 4,
       title: 'The Dark Knight',
-      rating: 99.5,
+      popularity: 99.5,
       overview: 'About Batman ...',
     },
   ],

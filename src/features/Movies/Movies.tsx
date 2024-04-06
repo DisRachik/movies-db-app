@@ -3,9 +3,9 @@ import { Movie, fetchMovies } from '../../reducers/movies';
 import { RootState } from '../../store';
 import { MovieCard } from './MovieCard';
 
-import styles from './Movies.module.scss';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks';
+import { Container, Grid, LinearProgress, Typography } from '@mui/material';
 
 interface MoviesProps {
   movies: Movie[];
@@ -20,24 +20,29 @@ function Movies({ movies, loading }: MoviesProps) {
   }, [dispatch]);
 
   return (
-    <section>
+    <Container sx={{ py: 8 }} maxWidth="lg">
+      <Typography variant="h4" align="center" gutterBottom>
+        Now playing
+      </Typography>
+
       {loading ? (
-        <h3>Loading... Must wait...</h3>
+        <LinearProgress color="secondary" />
       ) : (
-        <div className={styles.list}>
+        <Grid container spacing={4}>
           {movies.map(({ id, title, overview, popularity, image }) => (
-            <MovieCard
-              key={id}
-              id={id}
-              title={title}
-              overview={overview}
-              popularity={popularity}
-              image={image}
-            />
+            <Grid item key={id} xs={12} sm={6} md={4}>
+              <MovieCard
+                id={id}
+                title={title}
+                overview={overview}
+                popularity={popularity}
+                image={image}
+              />
+            </Grid>
           ))}
-        </div>
+        </Grid>
       )}
-    </section>
+    </Container>
   );
 }
 

@@ -1,11 +1,11 @@
-import { connect, useDispatch } from 'react-redux';
-import { Movie, moviesLoader, moviesLoading } from '../../reducers/movies';
+import { connect } from 'react-redux';
+import { Movie, fetchMovies } from '../../reducers/movies';
 import { RootState } from '../../store';
 import { MovieCard } from './MovieCard';
 
 import styles from './Movies.module.scss';
 import { useEffect } from 'react';
-import { client } from '../../api';
+import { useAppDispatch } from '../../hooks';
 
 interface MoviesProps {
   movies: Movie[];
@@ -13,25 +13,10 @@ interface MoviesProps {
 }
 
 function Movies({ movies, loading }: MoviesProps) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    async function loadData() {
-      dispatch(moviesLoading());
-
-      const config = await client.getConfiguration();
-      const imgUrl = config.images.base_url;
-      const results = await client.getNowPlaying();
-
-      const mappedResult: Movie[] = results.map((item) => ({
-        ...item,
-        image: item.backdrop_path ? `${imgUrl}w780${item.backdrop_path}` : undefined,
-      }));
-
-      dispatch(moviesLoader(mappedResult));
-    }
-
-    loadData();
+    dispatch(fetchMovies());
   }, [dispatch]);
 
   return (

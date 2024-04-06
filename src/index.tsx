@@ -4,7 +4,7 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { About, Movies, MoviesFetch } from './features';
+import { About, Movies } from './features';
 import { Provider } from 'react-redux';
 import store from './store';
 
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/movies',
-        element: <MoviesFetch />,
+        element: <Movies />,
       },
       {
         path: '/about',

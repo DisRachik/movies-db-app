@@ -1,4 +1,4 @@
-import { Reducer, Action } from 'redux';
+import { ActionWithPayload, createReducer } from '../redux/utils';
 
 export interface Movie {
   id: number;
@@ -41,8 +41,19 @@ const initialState: MoviesState = {
   ],
 };
 
-const moviesReducer: Reducer<MoviesState, Action> = (state, action) => {
-  return initialState;
-};
+export const moviesLoader = (movies: Movie[]) => ({
+  type: 'movies/loaded',
+  payload: movies,
+});
+
+const moviesReducer = createReducer<MoviesState>(initialState, {
+  'movies/loaded': (state, action: ActionWithPayload<Movie[]>) => {
+    console.log(state);
+    return {
+      ...state,
+      top: action.payload,
+    };
+  },
+});
 
 export default moviesReducer;

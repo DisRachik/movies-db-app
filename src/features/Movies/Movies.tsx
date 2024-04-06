@@ -1,14 +1,18 @@
-import { connect } from 'react-redux';
-import { Movie } from '../../reducers/movies';
+import { connect, useDispatch } from 'react-redux';
+import { Movie, moviesLoader } from '../../reducers/movies';
 import { RootState } from '../../store';
 import { MovieCard } from './MovieCard';
 
 import styles from './Movies.module.scss';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { client, MovieDetails } from '../../api';
 
-export function MoviesFetch() {
-  const [movies, setMovies] = useState<MovieDetails[]>([]);
+interface MoviesProps {
+  movies: Movie[];
+}
+
+function Movies({ movies }: MoviesProps) {
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadData() {
@@ -21,20 +25,12 @@ export function MoviesFetch() {
         image: item.backdrop_path ? `${imgUrl}w780${item.backdrop_path}` : undefined,
       }));
 
-      setMovies(mappedResult);
+      dispatch(moviesLoader(mappedResult));
     }
 
     loadData();
-  }, []);
+  }, [dispatch]);
 
-  return <Movies movies={movies} />;
-}
-
-interface MoviesProps {
-  movies: Movie[];
-}
-
-function Movies({ movies }: MoviesProps) {
   return (
     <section>
       <h1>MOVIES</h1>

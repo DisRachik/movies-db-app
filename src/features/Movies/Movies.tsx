@@ -1,21 +1,24 @@
 import { connect, useDispatch } from 'react-redux';
-import { Movie, moviesLoader } from '../../reducers/movies';
+import { Movie, moviesLoader, moviesLoading } from '../../reducers/movies';
 import { RootState } from '../../store';
 import { MovieCard } from './MovieCard';
 
 import styles from './Movies.module.scss';
 import { useEffect } from 'react';
-import { client, MovieDetails } from '../../api';
+import { client } from '../../api';
 
 interface MoviesProps {
   movies: Movie[];
+  loading: boolean;
 }
 
-function Movies({ movies }: MoviesProps) {
+function Movies({ movies, loading }: MoviesProps) {
   const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadData() {
+      dispatch(moviesLoading());
+
       const config = await client.getConfiguration();
       const imgUrl = config.images.base_url;
       const results = await client.getNowPlaying();
@@ -33,25 +36,29 @@ function Movies({ movies }: MoviesProps) {
 
   return (
     <section>
-      <h1>MOVIES</h1>
-      <div className={styles.list}>
-        {movies.map(({ id, title, overview, popularity, image }) => (
-          <MovieCard
-            key={id}
-            id={id}
-            title={title}
-            overview={overview}
-            popularity={popularity}
-            image={image}
-          />
-        ))}
-      </div>
+      {loading ? (
+        <h3>Loading... Must wait...</h3>
+      ) : (
+        <div className={styles.list}>
+          {movies.map(({ id, title, overview, popularity, image }) => (
+            <MovieCard
+              key={id}
+              id={id}
+              title={title}
+              overview={overview}
+              popularity={popularity}
+              image={image}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
 
 const mapStateToProps = (state: RootState) => ({
   movies: state.movies.top,
+  loading: state.movies.loading,
 });
 const connector = connect(mapStateToProps);
 export default connector(Movies);

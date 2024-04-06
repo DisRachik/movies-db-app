@@ -10,40 +10,21 @@ export interface Movie {
 
 interface MoviesState {
   top: Movie[];
+  loading: boolean;
 }
 
 const initialState: MoviesState = {
-  top: [
-    {
-      id: 1,
-      title: 'The Fast and the Furious',
-      popularity: 98,
-      overview: 'About the speed ...',
-    },
-    {
-      id: 2,
-      title: 'The Godfather',
-      popularity: 97,
-      overview: 'About criminals ...',
-    },
-    {
-      id: 3,
-      title: 'Inception',
-      popularity: 90,
-      overview: 'About the something ...',
-    },
-    {
-      id: 4,
-      title: 'The Dark Knight',
-      popularity: 99.5,
-      overview: 'About Batman ...',
-    },
-  ],
+  top: [],
+  loading: false,
 };
 
 export const moviesLoader = (movies: Movie[]) => ({
   type: 'movies/loaded',
   payload: movies,
+});
+
+export const moviesLoading = () => ({
+  type: 'movies/loading',
 });
 
 const moviesReducer = createReducer<MoviesState>(initialState, {
@@ -52,6 +33,13 @@ const moviesReducer = createReducer<MoviesState>(initialState, {
     return {
       ...state,
       top: action.payload,
+      loading: false,
+    };
+  },
+  'movies/loading': (state, action) => {
+    return {
+      ...state,
+      loading: true,
     };
   },
 });

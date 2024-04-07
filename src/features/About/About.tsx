@@ -1,3 +1,12 @@
+import { Container } from "@mui/material";
+import { CountDownText } from "./CountDownText";
+import { CountDownVideo } from "./CountDownVideo";
+
 export function About() {
-  return <h1>Coming soon...</h1>;
+  return (
+    <Container sx={{ py: 8 }} maxWidth="md">
+      <CountDownText />
+      <CountDownVideo />
+    </Container>
+  );
 }

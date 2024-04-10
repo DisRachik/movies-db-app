@@ -11,10 +11,13 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { About, Home, Movies } from "./features";
 import { Provider } from "react-redux";
 import store from "./store";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 const AppEndpoint = () => (
   <Provider store={store}>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </Provider>
 );
 

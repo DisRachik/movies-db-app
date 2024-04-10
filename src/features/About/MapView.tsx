@@ -23,7 +23,7 @@ export function MapView() {
 
   return (
     <Container ref={containerRef} sx={{ width: 800, height: 500, my: 2 }}>
-      {popupContainer && createPortal(<Greeting />, popupContainer)}
+      <>{popupContainer && createPortal(<Greeting />, popupContainer)}</>
     </Container>
   );
 }

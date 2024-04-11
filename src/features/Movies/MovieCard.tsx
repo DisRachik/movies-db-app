@@ -1,5 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
-import { Movie } from "../../reducers/movies";
+import { Movie } from "../../redux/reducers/movies";
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
 

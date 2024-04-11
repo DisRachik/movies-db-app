@@ -1,6 +1,4 @@
-import { connect } from "react-redux";
-import { Movie, fetchMovies } from "../../reducers/movies";
-import { RootState } from "../../store";
+import { fetchNextPage } from "../../redux/reducers/movies";
 import { MovieCard } from "./MovieCard";
 
 import { useContext, useEffect } from "react";
@@ -8,14 +6,13 @@ import { useAppDispatch } from "../../hooks";
 import { Container, Grid, LinearProgress, Typography } from "@mui/material";
 import { AuthContext, anonymousUser } from "../../AuthContext";
 import { useIntersectionObserver } from "../../hooks";
+import { useAppSelector } from "../../hooks/useAppDispatch";
 
-interface MoviesProps {
-  movies: Movie[];
-  loading: boolean;
-}
-
-function Movies({ movies, loading }: MoviesProps) {
+function Movies() {
   const dispatch = useAppDispatch();
+  const movies = useAppSelector((state) => state.movies.top);
+  const loading = useAppSelector((state) => state.movies.loading);
+  const hasMorePage = useAppSelector((state) => state.movies.hasMorePage);
 
   const auth = useContext(AuthContext);
   const loggedIn = auth.user !== anonymousUser;
@@ -23,8 +20,8 @@ function Movies({ movies, loading }: MoviesProps) {
   const { targetRef, entry } = useIntersectionObserver();
 
   useEffect(() => {
-    entry?.isIntersecting && dispatch(fetchMovies());
-  }, [dispatch, entry?.isIntersecting]);
+    entry?.isIntersecting && hasMorePage && dispatch(fetchNextPage());
+  }, [dispatch, entry?.isIntersecting, hasMorePage]);
 
   return (
     <Container sx={{ py: 8 }} maxWidth="lg">
@@ -51,9 +48,4 @@ function Movies({ movies, loading }: MoviesProps) {
   );
 }
 
-const mapStateToProps = (state: RootState) => ({
-  movies: state.movies.top,
-  loading: state.movies.loading,
-});
-const connector = connect(mapStateToProps);
-export default connector(Movies);
+export default Movies;

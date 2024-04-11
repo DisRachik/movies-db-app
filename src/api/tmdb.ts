@@ -1,10 +1,10 @@
-import configuration from '../configuration';
+import configuration from "../configuration";
 
 async function get<TBody>(currentUrl: string): Promise<TBody> {
   const options = {
-    method: 'GET',
+    method: "GET",
     headers: {
-      accept: 'application/json',
+      accept: "application/json",
       Authorization: `Bearer ${configuration.apiToken}`,
     },
   };
@@ -25,6 +25,12 @@ export interface MovieDetails {
 interface PageResponse<TResult> {
   page: number;
   results: TResult[];
+  total_pages: number;
+}
+interface PageDetails<TResult> {
+  page: number;
+  results: TResult[];
+  totalPages: number;
 }
 interface Configuration {
   images: {
@@ -34,12 +40,13 @@ interface Configuration {
 
 export const client = {
   async getConfiguration() {
-    return get<Configuration>('/configuration');
+    return get<Configuration>("/configuration");
   },
 
-  async getNowPlaying(): Promise<MovieDetails[]> {
-    const response = await get<PageResponse<MovieDetails>>('/movie/now_playing?page=1');
+  async getNowPlaying(pageNumber: number = 1): Promise<PageDetails<MovieDetails>> {
+    const response = await get<PageResponse<MovieDetails>>(`/movie/now_playing?page=${pageNumber}`);
+    const { results, page, total_pages: totalPages } = response;
 
-    return response.results;
+    return { results, page, totalPages };
   },
 };

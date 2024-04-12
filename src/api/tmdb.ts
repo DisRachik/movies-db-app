@@ -26,6 +26,7 @@ interface PageResponse<TResult> {
   page: number;
   results: TResult[];
   total_pages: number;
+  total_results: number;
 }
 interface PageDetails<TResult> {
   page: number;
@@ -44,11 +45,19 @@ export interface KeywordItem {
 
 export interface MoviesFilters {
   keywords?: number[];
+  genres?: number[];
 }
 
-export const client = {
+interface IClient {
+  getConfiguration: () => Promise<Configuration>;
+  getNowPlaying: (page: number) => Promise<PageDetails<MovieDetails>>;
+  getMovies: (page: number, filters: MoviesFilters) => Promise<PageDetails<MovieDetails>>;
+  getKeywords: (query: string) => Promise<KeywordItem[]>;
+}
+
+export const client: IClient = {
   async getConfiguration() {
-    return get<Configuration>("/configuration");
+    return await get<Configuration>("/configuration");
   },
 
   async getNowPlaying(pageNumber: number = 1): Promise<PageDetails<MovieDetails>> {
@@ -66,6 +75,9 @@ export const client = {
     if (filters.keywords?.length) {
       params.append("with_keywords", filters.keywords.join("|"));
     }
+    if (filters.genres?.length) {
+      params.append("with_genres", filters.genres.join(","));
+    }
 
     const response = await get<PageResponse<MovieDetails>>(`/discover/movie?${params.toString()}`);
     const { results, page, total_pages: totalPages } = response;
@@ -74,8 +86,8 @@ export const client = {
   },
 
   async getKeywords(query: string) {
-    const response = await get<PageResponse<KeywordItem>>(`/search/keyword?query=${query}`);
+    const { results } = await get<PageResponse<KeywordItem>>(`/search/keyword?query=${query}`);
 
-    return response.results;
+    return results;
   },
 };

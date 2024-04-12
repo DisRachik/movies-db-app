@@ -1,2 +1,2 @@
 export { client } from "./tmdb";
-export type { MovieDetails, KeywordItem } from "./tmdb";
+export type { MovieDetails, KeywordItem, MoviesFilters } from "./tmdb";

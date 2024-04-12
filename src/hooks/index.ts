@@ -1,2 +1,2 @@
 export { useIntersectionObserver } from "./useIntersectionObserver";
-export { useAppDispatch } from "./useAppDispatch";
+export { useAppDispatch, useAppSelector } from "./useAppDispatch";

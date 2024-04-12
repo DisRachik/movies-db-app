@@ -1,13 +1,12 @@
+import { useContext, useEffect, useState } from "react";
+
 import { fetchNextPage, resetMovies } from "../../redux/reducers/movies";
 import { MovieCard } from "./MovieCard";
 import { Filters, MoviesFilter } from "./MoviesFilter";
 
-import { useContext, useEffect, useState } from "react";
-import { useAppDispatch } from "../../hooks";
-import { Container, Grid, LinearProgress } from "@mui/material";
+import { useAppDispatch, useAppSelector, useIntersectionObserver } from "../../hooks";
+import { Container, Grid, LinearProgress, Typography } from "@mui/material";
 import { AuthContext, anonymousUser } from "../../AuthContext";
-import { useIntersectionObserver } from "../../hooks";
-import { useAppSelector } from "../../hooks/useAppDispatch";
 
 function Movies() {
   const [filters, setFilters] = useState<Filters>();
@@ -28,7 +27,10 @@ function Movies() {
   useEffect(() => {
     if (entry?.isIntersecting && hasMorePage) {
       const moviesFilters = filters
-        ? { keywords: filters.keywords.map((item) => item.id) }
+        ? {
+            keywords: filters?.keywords.map((item) => item.id),
+            genres: filters?.genres,
+          }
         : undefined;
 
       dispatch(fetchNextPage(moviesFilters));
@@ -47,6 +49,9 @@ function Movies() {
       </Grid>
       <Grid item xs={12}>
         <Container sx={{ py: 8 }} maxWidth="lg">
+          {!loading && !movies.length && (
+            <Typography variant="h6">No movies were found that match your query.</Typography>
+          )}
           <Grid container spacing={4}>
             {movies.map(({ id, title, overview, popularity, image }) => (
               <Grid item key={id} xs={12} sm={6} md={4}>

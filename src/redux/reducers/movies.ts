@@ -1,7 +1,7 @@
-import { client } from "../../api";
+import { client, MoviesFilters } from "../../api";
 import { ActionWithPayload, createReducer } from "../utils";
 import { AppThunk } from "../store";
-import { MoviesFilters } from "../../api/tmdb";
+import { genres } from "../../features/Movies/genres";
 
 export interface Movie {
   id: number;
@@ -11,11 +11,17 @@ export interface Movie {
   image?: string;
 }
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+
 interface MoviesState {
   top: Movie[];
   loading: boolean;
   page: number;
   hasMorePage: boolean;
+  genres: Genre[];
 }
 
 const initialState: MoviesState = {
@@ -23,9 +29,10 @@ const initialState: MoviesState = {
   loading: false,
   page: 0,
   hasMorePage: true,
+  genres,
 };
 
-const moviesLoader = (movies: Movie[], page: number, hasMorePage: boolean) => ({
+const moviesLoaded = (movies: Movie[], page: number, hasMorePage: boolean) => ({
   type: "movies/loaded",
   payload: { movies, page, hasMorePage },
 });
@@ -62,7 +69,7 @@ function fetchPage(pageNumber: number, filters: MoviesFilters): AppThunk<Promise
 
     const hasMorePage = page < totalPages;
 
-    dispatch(moviesLoader(mappedResult, pageNumber, hasMorePage));
+    dispatch(moviesLoaded(mappedResult, pageNumber, hasMorePage));
   };
 }
 

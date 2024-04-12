@@ -37,6 +37,14 @@ interface Configuration {
     base_url: string;
   };
 }
+export interface KeywordItem {
+  id: number;
+  name: string;
+}
+
+export interface MoviesFilters {
+  keywords?: number[];
+}
 
 export const client = {
   async getConfiguration() {
@@ -48,5 +56,26 @@ export const client = {
     const { results, page, total_pages: totalPages } = response;
 
     return { results, page, totalPages };
+  },
+
+  async getMovies(pageNumber: number, filters: MoviesFilters): Promise<PageDetails<MovieDetails>> {
+    const params = new URLSearchParams({
+      page: pageNumber.toString(),
+    });
+
+    if (filters.keywords?.length) {
+      params.append("with_keywords", filters.keywords.join("|"));
+    }
+
+    const response = await get<PageResponse<MovieDetails>>(`/discover/movie?${params.toString()}`);
+    const { results, page, total_pages: totalPages } = response;
+
+    return { results, page, totalPages };
+  },
+
+  async getKeywords(query: string) {
+    const response = await get<PageResponse<KeywordItem>>(`/search/keyword?query=${query}`);
+
+    return response.results;
   },
 };

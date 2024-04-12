@@ -4,8 +4,6 @@ on:
   push:
     branches: [main]
 
-  workflow_dispatch:
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -21,5 +19,5 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
-          branches: gh-pages
+          branch: gh-pages
           folder: build

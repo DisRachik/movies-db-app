@@ -8,7 +8,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { About, Home } from "./features";
+import { About, Home, Movies } from "./features";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { ErrorBoundary } from "./ErrorBoundary";
@@ -33,7 +33,7 @@ const router = createBrowserRouter(
         },
         {
           path: "/movies",
-          lazy: () => import("./features/Movies/Movies"),
+          element: <Movies />,
         },
         {
           path: "/about",

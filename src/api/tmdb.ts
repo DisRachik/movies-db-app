@@ -11,7 +11,7 @@ async function get<TBody>(currentUrl: string): Promise<TBody> {
 
   const res = await fetch(`${configuration.apiUrl}/3${currentUrl}`, options);
 
-  return res.json() as TBody;
+  return (await res.json()) as TBody;
 }
 
 export interface MovieDetails {

@@ -1,15 +1,13 @@
-import configuration from "../configuration";
-
 async function get<TBody>(currentUrl: string): Promise<TBody> {
   const options = {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: `Bearer ${configuration.apiToken}`,
+      Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
     },
   };
 
-  const res = await fetch(`${configuration.apiUrl}/3${currentUrl}`, options);
+  const res = await fetch(`https://api.themoviedb.org/3${currentUrl}`, options);
 
   return (await res.json()) as TBody;
 }

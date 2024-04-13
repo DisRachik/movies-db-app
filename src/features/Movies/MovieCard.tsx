@@ -1,8 +1,9 @@
 import { Link as RouterLink } from "react-router-dom";
+import { memo } from "react";
+
 import { Movie } from "../../redux/reducers/movies";
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
-
 import {
   Button,
   Card,
@@ -16,16 +17,20 @@ import {
 
 interface MovieCardProps extends Movie {
   enableUserAction?: boolean;
+  onAddFavorite?: (id: number) => void;
 }
 
-export function MovieCard({
+function MovieCard({
   id,
   title,
   overview,
   popularity,
   enableUserAction,
-  image = "/movie-thumb.png",
+  onAddFavorite,
+  image = "./movie-thumb.png",
 }: MovieCardProps) {
+  console.count("MovieCard");
+
   return (
     <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <CardMedia component="div" image={image} sx={{ pt: "56.25%" }} />
@@ -47,7 +52,7 @@ export function MovieCard({
         </Button>
         {enableUserAction && (
           <Tooltip title="Add to favorite">
-            <IconButton>
+            <IconButton onClick={() => onAddFavorite?.(id)}>
               <FavoriteIcon />
             </IconButton>
           </Tooltip>
@@ -56,3 +61,5 @@ export function MovieCard({
     </Card>
   );
 }
+
+export default memo(MovieCard);

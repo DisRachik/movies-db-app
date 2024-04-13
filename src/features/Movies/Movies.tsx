@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import { fetchNextPage, resetMovies } from "../../redux/reducers/movies";
-import { MovieCard } from "./MovieCard";
+import MovieCard from "./MovieCard";
 import { Filters, MoviesFilter } from "./MoviesFilter";
 
 import { useAppDispatch, useAppSelector, useIntersectionObserver } from "../../hooks";
@@ -37,6 +37,15 @@ function Movies() {
     }
   }, [dispatch, entry?.isIntersecting, filters, hasMorePage]);
 
+  const handleAddFavorite = useCallback(
+    (id: number) => {
+      alert(
+        `In process! Action: ${auth.user.name} is trying to add movie${id} to his favorite list.`
+      );
+    },
+    [auth.user.name]
+  );
+
   return (
     <Grid container spacing={2} sx={{ flexWrap: "nowrap" }}>
       <Grid item xs="auto">
@@ -53,8 +62,8 @@ function Movies() {
             <Typography variant="h6">No movies were found that match your query.</Typography>
           )}
           <Grid container spacing={4}>
-            {movies.map(({ id, title, overview, popularity, image }) => (
-              <Grid item key={id} xs={12} sm={6} md={4}>
+            {movies.map(({ id, title, overview, popularity, image }, index) => (
+              <Grid item key={`${id}-${index}`} xs={12} sm={6} md={4}>
                 <MovieCard
                   id={id}
                   title={title}
@@ -62,6 +71,7 @@ function Movies() {
                   popularity={popularity}
                   image={image}
                   enableUserAction={loggedIn}
+                  onAddFavorite={handleAddFavorite}
                 />
               </Grid>
             ))}

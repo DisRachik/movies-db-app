@@ -29,8 +29,6 @@ function MovieCard({
   onAddFavorite,
   image = "./movie-thumb.png",
 }: MovieCardProps) {
-  console.count("MovieCard");
-
   return (
     <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <CardMedia component="div" image={image} sx={{ pt: "56.25%" }} />
@@ -48,7 +46,7 @@ function MovieCard({
 
       <CardActions>
         <Button component={RouterLink} to={`/movies/${id}`} color="secondary">
-          Datails
+          Details
         </Button>
         {enableUserAction && (
           <Tooltip title="Add to favorite">

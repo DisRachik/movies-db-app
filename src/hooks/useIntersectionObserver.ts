@@ -4,6 +4,7 @@ interface Options {
   threshold?: number;
   root?: Element;
   rootMargin?: string;
+  onIntersect?(): void;
 }
 interface HookReturnType {
   targetRef: MutableRefObject<null>;
@@ -11,23 +12,29 @@ interface HookReturnType {
 }
 
 export function useIntersectionObserver(options: Options = {}): HookReturnType {
-  const { threshold = 0, root = null, rootMargin = "0px" } = options;
+  const { threshold = 0, root = null, rootMargin = "0px", onIntersect } = options;
   const [entry, setEntry] = useState<IntersectionObserverEntry>();
   const targetRef = useRef(null);
-
-  const callbackFn = (entries: IntersectionObserverEntry[]) => {
-    const [entry] = entries;
-    setEntry(entry);
-  };
 
   useEffect(() => {
     const currentRef = targetRef.current;
 
-    const observe = new IntersectionObserver(callbackFn, {
-      threshold,
-      root,
-      rootMargin,
-    });
+    const observe = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        const [entry] = entries;
+
+        if (entry.isIntersecting) {
+          onIntersect?.();
+        }
+
+        setEntry(entry);
+      },
+      {
+        threshold,
+        root,
+        rootMargin,
+      }
+    );
 
     if (currentRef) {
       observe.observe(currentRef);
@@ -38,7 +45,7 @@ export function useIntersectionObserver(options: Options = {}): HookReturnType {
         observe.disconnect();
       }
     };
-  }, [root, rootMargin, threshold]);
+  }, [onIntersect, root, rootMargin, threshold]);
 
   return { targetRef, entry };
 }

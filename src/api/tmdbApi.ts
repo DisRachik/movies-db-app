@@ -48,7 +48,6 @@ interface Genre {
 }
 
 const API_KEY = "19345c148191d7f91b4cf12b6e616f39";
-console.log("process.env.REACT_APP_API_TOKEN", process.env.REACT_APP_API_TOKEN);
 
 export const tmdbAPI = createApi({
   reducerPath: "tmdbApi",

@@ -55,7 +55,7 @@ export const tmdbAPI = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://api.themoviedb.org/3",
     prepareHeaders(headers) {
-      headers.set("Accept", "application/json");
+      headers.set("accept", "application/json");
       headers.set("Authorization", `Bearer ${API_KEY}`);
     },
   }),

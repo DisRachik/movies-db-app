@@ -47,7 +47,8 @@ interface Genre {
   name: string;
 }
 
-const API_KEY = "19345c148191d7f91b4cf12b6e616f39";
+const API_KEY =
+  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOTM0NWMxNDgxOTFkN2Y5MWI0Y2YxMmI2ZTYxNmYzOSIsInN1YiI6IjY0NzhjYjEzMDc2Y2U4MDBhODIyMzhlMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.aHCOX5T6x3nNELToH_dnW4jpXASI-uOLlWc4RUEEVq0";
 
 export const tmdbAPI = createApi({
   reducerPath: "tmdbApi",

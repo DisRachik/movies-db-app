@@ -1,8 +1,6 @@
 import { Link as RouterLink } from "react-router-dom";
 import { memo } from "react";
 
-import { Movie } from "../../redux/reducers/movies";
-
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
   Button,
@@ -15,9 +13,14 @@ import {
   Typography,
 } from "@mui/material";
 
-interface MovieCardProps extends Movie {
+interface MovieCardProps {
+  id: number;
+  title: string;
+  popularity: number;
+  overview: string;
+  image?: string;
   enableUserAction?: boolean;
-  onAddFavorite?: (id: number) => void;
+  onAddFavorite?(id: number): void;
 }
 
 function MovieCard({
@@ -25,7 +28,7 @@ function MovieCard({
   title,
   overview,
   popularity,
-  enableUserAction,
+  enableUserAction = false,
   onAddFavorite,
   image = "./movie-thumb.png",
 }: MovieCardProps) {

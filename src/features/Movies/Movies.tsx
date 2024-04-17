@@ -1,12 +1,11 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 
-import { fetchNextPage, resetMovies } from "../../redux/reducers/movies";
 import MovieCard from "./MovieCard";
-import { Filters, MoviesFilter } from "./MoviesFilter";
+import { MoviesFilter } from "./MoviesFilter";
 
-import { useAppDispatch, useAppSelector, useIntersectionObserver } from "../../hooks";
 import { Container, Grid, LinearProgress, Typography } from "@mui/material";
 import { AuthContext, anonymousUser } from "../../AuthContext";
+import { useIntersectionObserver } from "../../hooks";
 import {
   MoviesFilters,
   MoviesQuery,
@@ -18,8 +17,6 @@ const initialQuery: MoviesQuery = {
   pageNumber: 1,
   filters: {},
 };
-
-// 27:01
 
 function Movies() {
   const [query, setQuery] = useState<MoviesQuery>(initialQuery);

@@ -30,7 +30,7 @@ export interface MoviesQuery {
   filters: MoviesFilters;
 }
 
-interface KeywordItem {
+export interface KeywordItem {
   id: number;
   name: string;
 }
@@ -69,6 +69,22 @@ export const tmdbAPI = createApi({
 
         return { results, currentPage, hasMorePages };
       },
+      serializeQueryArgs({ endpointName }) {
+        return endpointName;
+      },
+      merge(currentCacheData, responseData) {
+        if (responseData.currentPage === 1) {
+          currentCacheData.results = responseData.results;
+        } else {
+          currentCacheData.results.push(...responseData.results);
+        }
+
+        currentCacheData.currentPage = responseData.currentPage;
+        currentCacheData.hasMorePages = responseData.hasMorePages;
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
     }),
 
     getMovies: builder.query<MoviesState, MoviesQuery>({
@@ -91,6 +107,22 @@ export const tmdbAPI = createApi({
         const hasMorePages = arg.pageNumber < total_pages;
 
         return { results, currentPage, hasMorePages };
+      },
+      serializeQueryArgs({ endpointName }) {
+        return endpointName;
+      },
+      merge(currentCacheData, responseData) {
+        if (responseData.currentPage === 1) {
+          currentCacheData.results = responseData.results;
+        } else {
+          currentCacheData.results.push(...responseData.results);
+        }
+
+        currentCacheData.currentPage = responseData.currentPage;
+        currentCacheData.hasMorePages = responseData.hasMorePages;
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
       },
     }),
 

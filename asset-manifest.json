@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/movies-db-app/static/css/main.94c28def.css",
-    "main.js": "/movies-db-app/static/js/main.78873c3c.js",
+    "main.js": "/movies-db-app/static/js/main.07a9a565.js",
     "static/js/441.cf8c03e9.chunk.js": "/movies-db-app/static/js/441.cf8c03e9.chunk.js",
     "static/css/442.0d596b13.chunk.css": "/movies-db-app/static/css/442.0d596b13.chunk.css",
     "static/js/442.6fa1ad85.chunk.js": "/movies-db-app/static/js/442.6fa1ad85.chunk.js",
@@ -67,7 +67,7 @@
     "static/media/roboto-greek-ext-700-normal.woff": "/movies-db-app/static/media/roboto-greek-ext-700-normal.249853776d22a271b2b5.woff",
     "index.html": "/movies-db-app/index.html",
     "main.94c28def.css.map": "/movies-db-app/static/css/main.94c28def.css.map",
-    "main.78873c3c.js.map": "/movies-db-app/static/js/main.78873c3c.js.map",
+    "main.07a9a565.js.map": "/movies-db-app/static/js/main.07a9a565.js.map",
     "441.cf8c03e9.chunk.js.map": "/movies-db-app/static/js/441.cf8c03e9.chunk.js.map",
     "442.0d596b13.chunk.css.map": "/movies-db-app/static/css/442.0d596b13.chunk.css.map",
     "442.6fa1ad85.chunk.js.map": "/movies-db-app/static/js/442.6fa1ad85.chunk.js.map",
@@ -78,6 +78,6 @@
   },
   "entrypoints": [
     "static/css/main.94c28def.css",
-    "static/js/main.78873c3c.js"
+    "static/js/main.07a9a565.js"
   ]
 }

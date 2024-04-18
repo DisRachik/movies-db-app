@@ -47,16 +47,13 @@ interface Genre {
   name: string;
 }
 
-const API_KEY =
-  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOTM0NWMxNDgxOTFkN2Y5MWI0Y2YxMmI2ZTYxNmYzOSIsInN1YiI6IjY0NzhjYjEzMDc2Y2U4MDBhODIyMzhlMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.aHCOX5T6x3nNELToH_dnW4jpXASI-uOLlWc4RUEEVq0";
-
 export const tmdbAPI = createApi({
   reducerPath: "tmdbApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://api.themoviedb.org/3",
     prepareHeaders(headers) {
       headers.set("accept", "application/json");
-      headers.set("Authorization", `Bearer ${API_KEY}`);
+      headers.set("Authorization", `Bearer ${process.env.REACT_APP_API_TOKEN}`);
     },
   }),
   endpoints: (builder) => ({

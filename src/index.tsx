@@ -56,7 +56,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: "/movies-db",
+    basename: "/movies-db-app",
   }
 );
 
